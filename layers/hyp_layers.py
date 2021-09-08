@@ -102,12 +102,6 @@ class HyperbolicGraphConvolution(nn.Module):
         x, adj = input
         temp = self.linear.forward(x)
         h = self.agg.forward(temp, adj)
-
-        transform_gate = self.linear2.forward(h)
-        transform_gate = torch.sigmoid(h)
-        carry_gate = 1.0 - transform_gate
-        h=transform_gate * h + carry_gate * x
-        h=self.linear1.forward(h)
         h = self.hyp_act.forward(h)
         output = h, adj
         return output
